@@ -5,12 +5,20 @@ const app = express();
 
 require('./config/mongoose.config');
 
-app.use(cors());
+app.use(cors({
+  origin: [
+    "http://localhost:3000",
+    "http://localhost:5173",
+    "https://administrar-producto.vercel.app"
+  ]
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 require('./routes/producto.routes')(app);
 
-app.listen(8000, () => {
-    console.log("Enchufado en el puerto 8000");
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en puerto ${PORT}`);
 });
